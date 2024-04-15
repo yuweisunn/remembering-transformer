@@ -3,7 +3,6 @@
 <img src="rt.png" width="80%"/>
 </p>
 
-
 ## Training
 
 ### Split task
@@ -11,3 +10,7 @@
       
 ### Permutation task
       python main_lora_pretrained_AE_lowdim_consolidation_retraining.py --task_type permute --dataset mnist --num_task 20 --epochs 200 --seed 0
+
+### Download Tiny Imagenet
+      bash tinyimagenet_downloader.sh
+
