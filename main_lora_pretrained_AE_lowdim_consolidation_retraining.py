@@ -1,6 +1,5 @@
 # Author: Yuwei Sun
-# 2023/12/21
-# python main_lora_pretrained_AE_lowdim_consolidation_retraining.py --task_type split --epochs 5 --vae_epochs 5
+# 2024/04/15
 
  
 import torch
@@ -24,36 +23,6 @@ from collections import defaultdict
 from torch.utils.data import DataLoader, Subset
 from transformers import BertTokenizer, BertModel
 
-"""
-import random
-import torch
-from torchvision import datasets
-
-class PermutedMNIST(datasets.MNIST):
-
-    def __init__(self, root="~/.torch/data/mnist", train=True, permute_idx=None):
-        super(PermutedMNIST, self).__init__(root, train, download=True)
-        assert len(permute_idx) == 28 * 28
-        if self.train:
-            self.train_data = torch.stack([img.float().view(-1)[permute_idx] / 255
-                                           for img in self.train_data])
-        else:
-            self.test_data = torch.stack([img.float().view(-1)[permute_idx] / 255
-                                          for img in self.test_data])
-
-    def __getitem__(self, index):
-
-        if self.train:
-            img, target = self.train_data[index], self.train_labels[index]
-        else:
-            img, target = self.test_data[index], self.test_labels[index]
-
-        return img, target
-
-    def get_sample(self, sample_size):
-        sample_idx = random.sample(range(len(self)), sample_size)
-        return [img for img in self.train_data[sample_idx]]
-"""
 
 def print_trainable_status(model):
     for name, param in model.named_parameters():
@@ -296,7 +265,6 @@ if task_type == "datasets":
         testloader_splits.append(torch.utils.data.DataLoader(testset_pet, batch_size=batch_size,
                                                 shuffle=False, num_workers=8, pin_memory=True))
         
-        """
         trainset_cifar100 = torchvision.datasets.CIFAR100(root='./data', train=True,
                                                 download=False, transform=transform_train)
         trainset_cifar100 = Subset(trainset_cifar100, subset_indices)
@@ -307,7 +275,6 @@ if task_type == "datasets":
                                                 shuffle=True, num_workers=8, pin_memory=True))
         testloader_splits.append(torch.utils.data.DataLoader(testset_cifar100, batch_size=batch_size,
                                                 shuffle=False, num_workers=8, pin_memory=True))
-        """
          
 else:
     if dataset == "mnist":
@@ -708,13 +675,6 @@ else:
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
     net = BertModel.from_pretrained("bert-base-uncased")
     print(net)
-    
-    #text = "Replace me by any text you'd like."
-    #encoded_input = tokenizer(text, return_tensors='pt')
-    #output = model(**encoded_input)
-
-
-
 
 net = net.cuda()
 
@@ -1121,7 +1081,6 @@ if mode == "train":
 
     print('Finished Training')
     print("--- %s seconds ---" % (time.time() - start_time))
-    #print(gateToExperts)
 
     # save the trained model weights
     if limem < num_task:
