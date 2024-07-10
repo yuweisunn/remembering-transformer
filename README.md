@@ -4,7 +4,7 @@
 The code repository for "Remembering Transformer for Continual Learning" [paper](https://arxiv.org/abs/2404.07518) in PyTorch. 
 
 <p align="center">
-<img src="rt.png" width="80%"/>
+<img src="rt.png" width="60%"/>
 </p>
 
 ## Training
